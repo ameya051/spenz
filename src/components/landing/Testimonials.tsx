@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/card'
 
 const testimonials = [
   {
-    quote: "ExisyFi has completely changed how I manage my money. The insights are invaluable!",
+    quote: "spenz has completely changed how I manage my money. The insights are invaluable!",
     author: "Sarah Johnson",
     role: "Small Business Owner"
   },
@@ -15,7 +15,7 @@ export default function Testimonials() {
       <div className="text-center mb-16">
         <h2 className="text-4xl font-bold mb-4">What Our Users Say</h2>
         <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Join thousands of satisfied users who have transformed their financial lives with ExisyFi.
+          Join thousands of satisfied users who have transformed their financial lives with spenz.
         </p>
       </div>
       <div className="grid md:grid-cols-3 gap-8">

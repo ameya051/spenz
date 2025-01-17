@@ -18,11 +18,11 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="container mx-auto px-4 py-20 border-t border-gray-200 dark:border-gray-800">
+    <section className="max-w-4xl mx-auto px-4 py-20 border-gray-200 dark:border-gray-800">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold mb-4">How It Works</h2>
+        <h2 className="text-4xl mb-4">How It Works</h2>
         <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Get started with ExisyFi in three simple steps and take control of your finances today.
+          Get started with spenz in three simple steps and take control of your finances today.
         </p>
       </div>
       <div className="grid md:grid-cols-3 gap-8">

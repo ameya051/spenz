@@ -13,7 +13,7 @@ export default function Benefits() {
     <section className="container mx-auto px-4 py-20 border-t border-gray-200 dark:border-gray-800">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <h2 className="text-4xl font-bold mb-6">Why Choose ExisyFi?</h2>
+          <h2 className="text-4xl font-bold mb-6">Why Choose spenz?</h2>
           <div className="space-y-6">
             {benefits.map((benefit, index) => (
               <div key={index} className="flex gap-4">
