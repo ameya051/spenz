@@ -1,18 +1,16 @@
-import { Facebook, Instagram, LineChart, Linkedin, Twitter } from 'lucide-react'
+import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import Logo from '../logo'
 
 function Footer() {
     return (
-        <footer className="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
-            <div className="container mx-auto px-4 py-12">
+        <footer className="bg-muted border-t border-gray-200 dark:border-gray-800">
+            <div className="px-4 max-w-4xl mx-auto py-12">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div className="space-y-4">
                         <Link href="/" className="flex items-center space-x-2">
-                            <LineChart className="h-6 w-6 text-cyan-600 dark:text-cyan-400" />
-                            <span className="text-xl font-bold bg-gradient-to-r from-cyan-600 to-pink-600 dark:from-cyan-400 dark:to-pink-400 bg-clip-text text-transparent">
-                                ExisyFi
-                            </span>
+                            <Logo />
                         </Link>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
                             Empowering you to take control of your finances with smart, intuitive tools.
@@ -62,7 +60,7 @@ function Footer() {
                 </div>
                 <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
                     <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-                        © {new Date().getFullYear()} ExisyFi. All rights reserved.
+                        © {new Date().getFullYear()} Spenz. All rights reserved.
                     </p>
                 </div>
             </div>

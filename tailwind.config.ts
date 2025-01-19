@@ -14,10 +14,20 @@ export default {
 				draw: {
 					'0%': { width: '0%' },
 					'100%': { width: '100%' }
-				}
+				},
+				marquee: {
+					from: { transform: "translateX(0)" },
+					to: { transform: "translateX(calc(-100% - var(--gap)))" },
+				},
+				"marquee-vertical": {
+					from: { transform: "translateY(0)" },
+					to: { transform: "translateY(calc(-100% - var(--gap)))" },
+				},
 			},
 			animation: {
-				'draw': 'draw 1s ease-out forwards'
+				'draw': 'draw 1s ease-out forwards',
+				marquee: "marquee var(--duration) linear infinite",
+				"marquee-vertical": "marquee-vertical var(--duration) linear infinite",
 			},
 			colors: {
 				background: 'hsl(var(--background))',

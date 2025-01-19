@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 function Hero() {
 
   return (
-    <section className="mx-auto px-4 py-20 max-w-4xl h-screen">
+    <section id="home" className="mx-auto pt-44 max-w-4xl px-4 md:px-0">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-8">
           <motion.h1
@@ -105,7 +105,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.3 }}
           className='relative aspect-square'>
-          <Image src='/mika-baumeister-bGZZBDvh8s4-unsplash.jpg' alt='' className='rounded-2xl' fill />
+          <Image src='/blake-wisz-Xn5FbEM9564-unsplash.jpg' alt='' className='rounded-2xl' fill />
         </motion.div>
       </div>
     </section>

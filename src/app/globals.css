@@ -70,3 +70,6 @@
   }
 }
 
+*{
+  scroll-behavior: smooth;
+}

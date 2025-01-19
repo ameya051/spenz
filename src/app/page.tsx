@@ -22,10 +22,10 @@ export default function LandingPage() {
       <Navigation />
       <Hero />
       <Features />
-      <HowItWorks />
-      <Benefits />
+      {/* <HowItWorks />
+      <Benefits /> */}
       <Testimonials />
-      <TrustedBy />
+      {/* <TrustedBy /> */}
       <CTA />
       <Footer />
     </div>

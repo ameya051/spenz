@@ -8,22 +8,22 @@ export default function Features() {
 
   const features = [
     {
-      icon: <BarChart3 className="w-8 h-8 stroke-1" />,
+      icon: <BarChart3 className="w-10 h-10 stroke-1" />,
       title: "Smart Analytics",
       description: "Get detailed insights into your spending patterns with interactive charts and graphs."
     },
     {
-      icon: <Bell className="w-8 h-8 stroke-1" />,
+      icon: <Bell className="w-10 h-10 stroke-1" />,
       title: "Smart Alerts",
       description: "Receive notifications for unusual spending, upcoming bills, and budget limits."
     },
     {
-      icon: <Target className="w-8 h-8 stroke-1" />,
+      icon: <Target className="w-10 h-10 stroke-1" />,
       title: "Goal Tracking",
       description: "Set and track your financial goals with visual progress indicators."
     },
     {
-      icon: <PieChart className="w-8 h-8 stroke-1" />,
+      icon: <PieChart className="w-10 h-10 stroke-1" />,
       title: "Budget Categories",
       description: "Organize expenses with custom categories and tags for better tracking."
     },
@@ -63,18 +63,6 @@ export default function Features() {
     }
   };
 
-  const gridVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.3,
-        delay: 0.6
-      }
-    }
-  };
-
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
@@ -82,38 +70,34 @@ export default function Features() {
   });
 
   return (
-    <div id='features' className="max-w-4xl mx-auto">
+    <div id='features' className="max-w-4xl mx-auto px-4 pt-44">
       <div className="container mx-auto">
         <div className="flex flex-col gap-10">
           <div
-            className="flex gap-4 flex-col items-start"
+            className="flex gap-4 flex-col items-center"
           >
             <motion.div
               ref={ref}
-              className="flex gap-2 flex-col"
+              className="flex gap-2 flex-col text-center"
               variants={containerVariants}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
               <motion.h2
-                className="text-3xl md:text-5xl tracking-tighter max-w-xl text-left"
+                className="text-3xl md:text-5xl tracking-tighter max-w-xl"
                 variants={headingVariants}
               >
                 Powerful Features
               </motion.h2>
               <motion.p
-                className="text-lg max-w-xl leading-relaxed tracking-tight text-muted-foreground text-left"
+                className="text-lg max-w-xl leading-relaxed tracking-tight text-muted-foreground "
                 variants={paragraphVariants}
               >
                 Everything you need to take control of your finances in one place.
               </motion.p>
             </motion.div>
           </div>
-          <motion.div
-            variants={gridVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {
               features.map((feature, index) => (
@@ -135,7 +119,7 @@ export default function Features() {
                 </div>
               ))
             }
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
