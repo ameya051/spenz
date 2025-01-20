@@ -25,7 +25,7 @@ function Navigation() {
           <div className="flex items-center space-x-4">
             <ThemeToggle />
             <Button variant="ghost" className="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 dark:hover:text-cyan-300">
-              Log In →
+              <Link href="/login">Log In →</Link>
             </Button>
           </div>
         </div>
