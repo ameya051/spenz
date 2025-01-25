@@ -3,25 +3,25 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { loginSchema, LoginFormValues } from "@/lib/validations/login"
+import { registerSchema, RegisterFormValues } from "@/lib/validations/register"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Icons } from "@/components/ui//icons"
 import { cn } from "@/lib/utils"
 
-export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function RegsiterForm({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
   })
 
-  async function onSubmit(data: LoginFormValues) {
+  async function onSubmit(data: RegisterFormValues) {
     setIsLoading(true)
 
     // Simulate API call
@@ -35,6 +35,22 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4">
+          <div className="grid gap-1">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              placeholder="John Doe"
+              type="text"
+              autoCapitalize="words"
+              autoComplete="name"
+              autoCorrect="off"
+              disabled={isLoading}
+              {...register("name")}
+            />
+            {errors.name && (
+              <p className="text-sm text-red-500">{errors.name.message}</p>
+            )}
+          </div>
           <div className="grid gap-1">
             <Label htmlFor="email">Email</Label>
             <Input
