@@ -1,17 +1,37 @@
 "use client"
 
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerSchema, RegisterFormValues } from "@/lib/validations/register"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Icons } from "@/components/ui//icons"
+import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
+import { useMutation } from '@tanstack/react-query';
+import { registerUser } from '@/lib/api/auth';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from "next/navigation";
 
-export function RegsiterForm({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+export default function RegisterForm({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  const { toast } = useToast();
+  const router=useRouter();
+
+  const mutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: () => {
+      toast({
+        title: "Success", description: "User registered successfully"
+      });
+      router.push("/login");
+    },
+    onError: (error) => {
+      toast({
+        title: error.message,
+        variant: "destructive"
+      });
+    }
+  });
 
   const {
     register,
@@ -21,14 +41,8 @@ export function RegsiterForm({ className, ...props }: React.HTMLAttributes<HTMLD
     resolver: zodResolver(registerSchema),
   })
 
-  async function onSubmit(data: RegisterFormValues) {
-    setIsLoading(true)
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    setIsLoading(false)
-    console.log(data)
+  function onSubmit(data: RegisterFormValues) {
+    mutation.mutate(data);
   }
 
   return (
@@ -44,7 +58,7 @@ export function RegsiterForm({ className, ...props }: React.HTMLAttributes<HTMLD
               autoCapitalize="words"
               autoComplete="name"
               autoCorrect="off"
-              disabled={isLoading}
+              disabled={mutation.isPending}
               {...register("name")}
             />
             {errors.name && (
@@ -60,7 +74,7 @@ export function RegsiterForm({ className, ...props }: React.HTMLAttributes<HTMLD
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading}
+              disabled={mutation.isPending}
               {...register("email")}
             />
             {errors.email && (
@@ -75,18 +89,18 @@ export function RegsiterForm({ className, ...props }: React.HTMLAttributes<HTMLD
               type="password"
               autoCapitalize="none"
               autoComplete="current-password"
-              disabled={isLoading}
+              disabled={mutation.isPending}
               {...register("password")}
             />
             {errors.password && (
               <p className="text-sm text-red-500">{errors.password.message}</p>
             )}
           </div>
-          <Button disabled={isLoading}>
-            {isLoading && (
+          <Button disabled={mutation.isPending}>
+            {mutation.isPending && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In
+            Sign Up
           </Button>
         </div>
       </form>
@@ -101,11 +115,11 @@ export function RegsiterForm({ className, ...props }: React.HTMLAttributes<HTMLD
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <Button variant="outline" disabled={isLoading} onClick={() => {}}>
+        <Button variant="outline" disabled={mutation.isPending} onClick={() => { }}>
           <Icons.gitHub className="mr-2 h-4 w-4" />
           GitHub
         </Button>
-        <Button variant="outline" disabled={isLoading} onClick={() => {}}>
+        <Button variant="outline" disabled={mutation.isPending} onClick={() => { }}>
           <Icons.google className="mr-2 h-4 w-4" />
           Google
         </Button>

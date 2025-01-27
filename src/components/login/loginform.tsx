@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema, LoginFormValues } from "@/lib/validations/login"
@@ -9,9 +8,30 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Icons } from "@/components/ui//icons"
 import { cn } from "@/lib/utils"
+import { useToast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
+import { loginUser } from "@/lib/api/auth"
 
 export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const mutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: () => {
+      toast({
+        title: "Success", description: "Logged in successfully"
+      });
+      router.push("/dashboard");
+    },
+    onError: (error) => {
+      toast({
+        title: error.message,
+        variant: "destructive"
+      });
+    }
+  });
 
   const {
     register,
@@ -21,14 +41,8 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
     resolver: zodResolver(loginSchema),
   })
 
-  async function onSubmit(data: LoginFormValues) {
-    setIsLoading(true)
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    setIsLoading(false)
-    console.log(data)
+  function onSubmit(data: LoginFormValues) {
+    mutation.mutate(data);
   }
 
   return (
@@ -44,7 +58,7 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading}
+              disabled={mutation.isPending}
               {...register("email")}
             />
             {errors.email && (
@@ -59,15 +73,15 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
               type="password"
               autoCapitalize="none"
               autoComplete="current-password"
-              disabled={isLoading}
+              disabled={mutation.isPending}
               {...register("password")}
             />
             {errors.password && (
               <p className="text-sm text-red-500">{errors.password.message}</p>
             )}
           </div>
-          <Button disabled={isLoading}>
-            {isLoading && (
+          <Button disabled={mutation.isPending}>
+            {mutation.isPending && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
             Sign In
@@ -85,11 +99,11 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <Button variant="outline" disabled={isLoading} onClick={() => {}}>
+        <Button variant="outline" disabled={mutation.isPending} onClick={() => { }}>
           <Icons.gitHub className="mr-2 h-4 w-4" />
           GitHub
         </Button>
-        <Button variant="outline" disabled={isLoading} onClick={() => {}}>
+        <Button variant="outline" disabled={mutation.isPending} onClick={() => { }}>
           <Icons.google className="mr-2 h-4 w-4" />
           Google
         </Button>

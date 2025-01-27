@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Logo from "@/components/logo"
 import Link from "next/link"
-import { RegsiterForm } from "@/components/register/registerForm"
+import RegisterForm from "@/components/register/registerForm"
 
 export default function RegisterPage() {
     return (
@@ -16,7 +16,7 @@ export default function RegisterPage() {
                             Enter your details below to create your account
                         </p>
                     </div>
-                    <RegsiterForm />
+                    <RegisterForm />
                     <p className="px-8 text-center text-sm text-muted-foreground">
                         Have an account?{" "}
                         <Link
