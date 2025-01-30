@@ -1,9 +1,24 @@
+'use client'
 import Image from "next/image"
 import { LoginForm } from "@/components/login/loginform"
 import Logo from "@/components/logo"
 import Link from "next/link"
+import { getUserInfo } from "@/lib/api/auth"
+import { useRouter } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
+import { useEffect } from "react"
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { data } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUserInfo,
+    retry:false
+  })
+  useEffect(() => {
+    if (data) router.push('/dashboard');
+  }, [data, router])
+
   return (
     <div className="container mx-auto relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">

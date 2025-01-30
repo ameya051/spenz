@@ -12,18 +12,22 @@ import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { loginUser } from "@/lib/api/auth"
+import { useAuthStore } from '@/store/useAuthStore'
 
 export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { toast } = useToast();
   const router = useRouter();
+  const { setUser } = useAuthStore()
 
   const mutation = useMutation({
     mutationFn: loginUser,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      setUser(data.user)
       toast({
-        title: "Success", description: "Logged in successfully"
-      });
-      router.push("/dashboard");
+        title: "Success",
+        description: "Logged in successfully"
+      })
+      router.push("/dashboard")
     },
     onError: (error) => {
       toast({

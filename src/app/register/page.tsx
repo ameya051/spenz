@@ -1,9 +1,25 @@
+'use client'
 import Image from "next/image"
 import Logo from "@/components/logo"
 import Link from "next/link"
 import RegisterForm from "@/components/register/registerForm"
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "@/lib/api/auth";
+import { useEffect } from "react";
 
 export default function RegisterPage() {
+    const router = useRouter();
+    const { data } = useQuery({
+        queryKey: ['user'],
+        queryFn: getUserInfo,
+        retry: true
+    })
+
+    useEffect(() => {
+        if (data) router.push('/dashboard');
+    }, [data, router])
+
     return (
         <div className="container mx-auto relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
             <div className="lg:p-8 px-4 mx-auto max-w-3xl">
