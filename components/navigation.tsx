@@ -29,6 +29,10 @@ const routes = [
         href: "/categories",
         label: "Categories",
     },
+    {
+        href: "/budgets",
+        label: "Budgets",
+    }
 ]
 
 export const Navigation = () => {

@@ -1,4 +1,4 @@
-import { type ClassValue, clsx } from "clsx";
+import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 
@@ -14,12 +14,13 @@ export function convertAmountToMiliunits(amount: number) {
   return Math.round(amount * 1000);
 }
 
-export function formatCurrency(value: number) {
-  return Intl.NumberFormat("en-us", {
+export function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    minimumFractionDigits: 2,
-  }).format(value);
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
 }
 
 export function calculatePercentageChange(current: number, previous: number) {
@@ -99,4 +100,9 @@ export function formatPercentage(
   if (options.addPrefix && value > 0) return `+${result}`;
 
   return result;
+}
+
+export function calculatePercentage(value: number, total: number): number {
+  if (total === 0) return 0;
+  return Math.round((value / total) * 100);
 }
