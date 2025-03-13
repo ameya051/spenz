@@ -1,7 +1,8 @@
-import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { relations } from "drizzle-orm";
 import { z } from "zod";
+
 export const accounts = pgTable("accounts", {
     id: text("id").primaryKey(),
     plaidId: text("plaid_id"),
@@ -24,6 +25,7 @@ export const categories = pgTable("categories", {
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
     transactions: many(transactions),
+    budgets: many(budgets),
 }));
 
 export const insertCategorySchema = createInsertSchema(categories);
@@ -56,3 +58,33 @@ export const transactionsRelations = relations(transactions, ({ one }) => ({
 export const insertTransactionSchema = createInsertSchema(transactions, {
     date: z.coerce.date(),
 });
+
+export const budgets = pgTable("budgets", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  amount: integer("amount").notNull(), // Budget amount in cents
+  period: text("period").notNull(), // 'monthly', 'weekly', 'yearly'
+  categoryId: text("category_id").references(() => categories.id, {
+    onDelete: "set null",
+  }), // null means all categories
+  startDate: timestamp("start_date", { mode: "date" }).notNull(),
+  endDate: timestamp("end_date", { mode: "date" }),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  userId: text("user_id").notNull(),
+  isRecurring: boolean("is_recurring").default(true).notNull(),
+});
+
+export const budgetsRelations = relations(budgets, ({ one }) => ({
+  category: one(categories, {
+    fields: [budgets.categoryId],
+    references: [categories.id],
+  }),
+}));
+
+export const insertBudgetSchema = createInsertSchema(budgets, {
+  amount: z.coerce.number().positive("Amount must be positive"),
+  period: z.enum(["monthly", "weekly", "yearly"]).default("monthly"),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date().optional(),
+});
+
