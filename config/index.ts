@@ -51,5 +51,5 @@ export const siteConfig: Metadata = {
 } as const;
 
 export const links = {
-  sourceCode: "https://github.com/thounny/finance-tracker",
+  sourceCode: "https://github.com/ameya051/spenz",
 } as const;

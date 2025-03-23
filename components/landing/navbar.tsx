@@ -4,13 +4,17 @@ import { Button } from "../ui/button";
 import { ThemeToggle } from "../theme-toggle";
 import Link from "next/link";
 import Logo from "../logo";
+import { useAuth } from "@clerk/nextjs";
 
 function Navigation() {
+  const { isSignedIn, isLoaded } = useAuth();
+
   const navLinks = [
     { href: "#home", name: "Home" },
     { href: "#features", name: "Features" },
     { href: "#testimonials", name: "Testimonials" },
   ];
+  
   return (
     <nav className="fixed top-0 w-full z-50 border-b backdrop-blur-md bg-white/70 dark:bg-gray-900 dark:bg-opacity-60 border-gray-200 dark:border-gray-800">
       <div className="max-w-4xl mx-auto px-4 py-4">
@@ -31,12 +35,23 @@ function Navigation() {
           </div>
           <div className="flex items-center space-x-4">
             <ThemeToggle />
-              <Button
-                variant="ghost"
-                className="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 dark:hover:text-cyan-300"
-              >
-                <Link href="/sign-in">Log In →</Link>
-              </Button>
+            {isLoaded && (
+              isSignedIn ? (
+                <Button
+                  variant="default"
+                  className="bg-cyan-600 hover:bg-cyan-700 text-white"
+                >
+                  <Link href="/dashboard">Start Saving</Link>
+                </Button>
+              ) : (
+                <Button
+                  variant="ghost"
+                  className="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 dark:hover:text-cyan-300"
+                >
+                  <Link href="/sign-in">Log In →</Link>
+                </Button>
+              )
+            )}
           </div>
         </div>
       </div>

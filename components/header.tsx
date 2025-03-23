@@ -11,6 +11,7 @@ import { Navigation } from "./navigation";
 import { WelcomeMsg } from "./welcome-msg";
 
 export const Header = () => {
+  
   return (
     <header className="bg-gradient-to-b from-blue-700 to-blue-500 px-4 py-8 lg:px-14 lg:pb-32">
       <div className="mx-auto max-w-screen-2xl">
@@ -20,7 +21,7 @@ export const Header = () => {
             <Navigation />
           </div>
 
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-4">
             <ClerkLoaded>
               <UserButton afterSignOutUrl="/" />
             </ClerkLoaded>
@@ -29,14 +30,14 @@ export const Header = () => {
               <Loader2 className="size-8 animate-spin text-slate-400" />
             </ClerkLoading>
 
-            {/* <Link
+            <Link
               href={links.sourceCode}
               target="_blank"
               rel="noreferrer noopener"
               title="Source Code"
             >
               <Image src="/github.svg" alt="GitHub" height={24} width={24} />
-            </Link> */}
+            </Link>
           </div>
         </div>
 

@@ -15,7 +15,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { insertTransactionSchema } from "@/db/schema";
 import { convertAmountToMiliunits } from "@/lib/utils";
@@ -24,7 +23,6 @@ const formSchema = z.object({
   date: z.coerce.date(),
   accountId: z.string(),
   categoryId: z.string().nullable().optional(),
-  payee: z.string(),
   amount: z.string(),
   notes: z.string().nullable().optional(),
 });
@@ -144,27 +142,6 @@ export const TransactionForm = ({
                   value={field.value}
                   onChange={field.onChange}
                   disabled={disabled}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          name="payee"
-          control={form.control}
-          disabled={disabled}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Payee</FormLabel>
-
-              <FormControl>
-                <Input
-                  disabled={disabled}
-                  placeholder="Add a payee"
-                  {...field}
                 />
               </FormControl>
 

@@ -25,7 +25,6 @@ export const categories = pgTable("categories", {
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
     transactions: many(transactions),
-    budgets: many(budgets),
 }));
 
 export const insertCategorySchema = createInsertSchema(categories);
@@ -33,7 +32,7 @@ export const insertCategorySchema = createInsertSchema(categories);
 export const transactions = pgTable("transactions", {
     id: text("id").primaryKey(),
     amount: integer("amount").notNull(),
-    payee: text("payee").notNull(),
+    payee: text("payee"),
     notes: text("notes"),
     date: timestamp("date", { mode: "date" }).notNull(),
     accountId: text("account_id").references(() => accounts.id, {
@@ -60,31 +59,18 @@ export const insertTransactionSchema = createInsertSchema(transactions, {
 });
 
 export const budgets = pgTable("budgets", {
-  id: text("id").primaryKey(),
-  name: text("name").notNull(),
-  amount: integer("amount").notNull(), // Budget amount in cents
-  period: text("period").notNull(), // 'monthly', 'weekly', 'yearly'
-  categoryId: text("category_id").references(() => categories.id, {
-    onDelete: "set null",
-  }), // null means all categories
-  startDate: timestamp("start_date", { mode: "date" }).notNull(),
-  endDate: timestamp("end_date", { mode: "date" }),
-  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-  userId: text("user_id").notNull(),
-  isRecurring: boolean("is_recurring").default(true).notNull(),
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    amount: integer("amount").notNull(), // Budget amount in cents
+    accountId: text("account_id").references(() => accounts.id, {
+        onDelete: "cascade",
+    }).notNull(),
+    lastAlertSent: timestamp("last_alert_sent", { mode: "date" }),
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
 });
 
-export const budgetsRelations = relations(budgets, ({ one }) => ({
-  category: one(categories, {
-    fields: [budgets.categoryId],
-    references: [categories.id],
-  }),
-}));
-
 export const insertBudgetSchema = createInsertSchema(budgets, {
-  amount: z.coerce.number().positive("Amount must be positive"),
-  period: z.enum(["monthly", "weekly", "yearly"]).default("monthly"),
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().optional(),
+    amount: z.coerce.number().positive("Amount must be positive"),
 });
 

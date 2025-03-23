@@ -1,0 +1,2 @@
+ALTER TABLE "budgets" ADD COLUMN "account_id" text NOT NULL;--> statement-breakpoint
+ALTER TABLE "budgets" ADD CONSTRAINT "budgets_account_id_accounts_id_fk" FOREIGN KEY ("account_id") REFERENCES "public"."accounts"("id") ON DELETE cascade ON UPDATE no action;

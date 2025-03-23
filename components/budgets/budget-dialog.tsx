@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
@@ -11,73 +10,51 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Select } from "../select";
 
 const budgetFormSchema = z.object({
-  name: z.string().min(1, "Name is required"),
   amount: z.coerce.number().positive("Amount must be positive"),
-  categoryId: z.string().optional(),
-  period: z.enum(["monthly", "weekly", "yearly"]).default("monthly"),
-  applyToAllCategories: z.boolean().default(false),
-})
+  accountId: z.coerce.string().nonempty("Account is required"),
+});
 
-type BudgetFormValues = z.infer<typeof budgetFormSchema>
+type BudgetFormValues = z.infer<typeof budgetFormSchema>;
 
 interface BudgetDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onSubmit: (values: BudgetFormValues) => void
-  defaultValues?: Partial<BudgetFormValues>
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSubmit: (values: BudgetFormValues) => void;
+  accountOptions: { label: string; value: string }[];
+  onCreateAccount: (name: string) => void;
+  disabled?: boolean;
 }
 
 export default function BudgetDialog({
   open,
   onOpenChange,
   onSubmit,
-  defaultValues = {
-    period: "monthly",
-    applyToAllCategories: false,
-  },
+  accountOptions,
+  onCreateAccount,
+  disabled
 }: BudgetDialogProps) {
   const form = useForm<BudgetFormValues>({
     resolver: zodResolver(budgetFormSchema),
-    defaultValues,
-  })
+  });
 
   const handleSubmit = (values: BudgetFormValues) => {
-    onSubmit(values)
-    form.reset()
-  }
-
-  const applyToAll = form.watch("applyToAllCategories")
-
-  // Mock categories - in a real app, you'd fetch these from the backend
-  const categories = [
-    { id: "1", name: "Groceries" },
-    { id: "2", name: "Dining Out" },
-    { id: "3", name: "Entertainment" },
-    { id: "4", name: "Transportation" },
-    { id: "5", name: "Shopping" },
-  ]
+    form.reset();
+    onSubmit(values);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -88,22 +65,36 @@ export default function BudgetDialog({
             Set a budget for a specific category or for all your expenses.
           </DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-4"
+          >
             <FormField
+              name="accountId"
               control={form.control}
-              name="name"
+              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Budget Name</FormLabel>
+                  <FormLabel>Account</FormLabel>
+
                   <FormControl>
-                    <Input placeholder="e.g. Groceries Budget" {...field} />
+                    <Select
+                      placeholder="Select an account"
+                      options={accountOptions}
+                      onCreate={onCreateAccount}
+                      value={field.value}
+                      onChange={field.onChange}
+                      disabled={disabled}
+                    />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="amount"
@@ -112,88 +103,28 @@ export default function BudgetDialog({
                   <FormLabel>Amount</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                      <Input type="number" className="pl-7" placeholder="0.00" {...field} />
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        &#8377;
+                      </span>
+                      <Input
+                        type="number"
+                        className="pl-7"
+                        placeholder="0.00"
+                        {...field}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
-            <FormField
-              control={form.control}
-              name="period"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Period</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a period" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="monthly">Monthly</SelectItem>
-                      <SelectItem value="weekly">Weekly</SelectItem>
-                      <SelectItem value="yearly">Yearly</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="applyToAllCategories"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Apply to all categories</FormLabel>
-                    <FormDescription>
-                      This budget will track spending across all categories
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-            
-            {!applyToAll && (
-              <FormField
-                control={form.control}
-                name="categoryId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
 
             <DialogFooter>
-              <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => onOpenChange(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit">Create Budget</Button>
@@ -202,5 +133,5 @@ export default function BudgetDialog({
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

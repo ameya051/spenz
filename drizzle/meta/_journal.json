@@ -36,6 +36,20 @@
       "when": 1741861792377,
       "tag": "0004_colorful_toro",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1742717486867,
+      "tag": "0005_slow_the_phantom",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1742736523830,
+      "tag": "0006_reflective_synch",
+      "breakpoints": true
     }
   ]
 }

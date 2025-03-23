@@ -17,7 +17,7 @@ function Hero() {
           >
             Simplify Expenses <br />
             With{" "}
-            <span className="text-primary relative after:absolute after:-bottom-3  after:left-0 after:w-full after:h-6 after:bg-[url('/needle-underline.svg')] after:bg-no-repeat after:bg-contain after:animate-draw">
+            <span className="text-primary relative after:absolute after:-bottom-3  after:left-0 after:w-full after:h-6 after:bg-[url('/dual-underline.svg')] after:bg-no-repeat after:bg-contain after:animate-draw">
               Spenz.
             </span>
           </motion.h1>
