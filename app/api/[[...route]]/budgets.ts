@@ -2,14 +2,13 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/drizzle";
-import { budgets, insertBudgetSchema } from "@/db/schema";
+import { accounts, budgets, insertBudgetSchema } from "@/db/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 // Create budget schema excluding auto-generated fields
 const createBudgetSchema = insertBudgetSchema.omit({
   id: true,
-  userId: true,
   createdAt: true,
   updatedAt: true,
 });
@@ -17,7 +16,6 @@ const createBudgetSchema = insertBudgetSchema.omit({
 // Update budget schema making all fields optional
 const updateBudgetSchema = createBudgetSchema.partial();
 
-// Create a Hono app with clerk middleware for authentication
 const app = new Hono()
   // Get all budgets for the authenticated user
   .get("/", clerkMiddleware(), async (ctx) => {
@@ -28,7 +26,7 @@ const app = new Hono()
 
     try {
       const result = await db.query.budgets.findMany({
-        where: eq(budgets.userId, auth.userId),
+        where: eq(budgets.accountId, accounts.id),
         orderBy: [desc(budgets.createdAt)],
       });
 
@@ -161,7 +159,6 @@ const app = new Hono()
       const [newBudget] = await db.insert(budgets).values({
         ...data,
         id: nanoid(),
-        userId: auth.userId,
         createdAt: new Date(),
         updatedAt: new Date(),
       }).returning();

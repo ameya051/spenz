@@ -60,7 +60,6 @@ export const insertTransactionSchema = createInsertSchema(transactions, {
 
 export const budgets = pgTable("budgets", {
     id: text("id").primaryKey(),
-    userId: text("user_id").notNull(),
     amount: integer("amount").notNull(), // Budget amount in cents
     accountId: text("account_id").references(() => accounts.id, {
         onDelete: "cascade",
@@ -73,4 +72,3 @@ export const budgets = pgTable("budgets", {
 export const insertBudgetSchema = createInsertSchema(budgets, {
     amount: z.coerce.number().positive("Amount must be positive"),
 });
-

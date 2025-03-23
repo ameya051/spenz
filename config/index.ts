@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const siteConfig: Metadata = {
-  title: "Finance",
-  description: "Track your income and expenses with Finance.",
+  title: "Spenz",
+  description: "Track your income and expenses with Spenz.",
   keywords: [
     "reactjs",
     "nextjs",
@@ -45,8 +45,8 @@ export const siteConfig: Metadata = {
     "css",
   ] as Array<string>,
   authors: {
-    name: "Thounny Keo",
-    url: "https://github.com/thounny",
+    name: "Ameya Shrivastava",
+    url: "https://github.com/ameya051",
   },
 } as const;
 

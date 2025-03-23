@@ -5,9 +5,18 @@ import { PlusCircle } from "lucide-react";
 import BudgetDialog from "./budget-dialog";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useCreateAccount } from "@/features/accounts/api/use-create-account";
+import { useCreateBudget } from "@/features/budgets/api/use-create-budget";
+
+interface BudgetFormData {
+  accountId: string;
+  amount: number;
+}
 
 export default function CreateBudgetButton() {
   const [open, setOpen] = useState(false);
+
+  const budgetmutation = useCreateBudget()
+
 
   const accountQuery = useGetAccounts();
   const accountOptions = (accountQuery.data ?? []).map((account) => ({
@@ -18,13 +27,9 @@ export default function CreateBudgetButton() {
   const accountMutation = useCreateAccount();
   const onCreateAccount = (name: string) => accountMutation.mutate({ name });
 
-  interface BudgetFormData {
-    accountId: string;
-    amount: number;
-  }
-
   function handleCreateBudget(data: BudgetFormData): void {
     console.log(data);
+    budgetmutation.mutate(data);
     setOpen(false);
   }
 
