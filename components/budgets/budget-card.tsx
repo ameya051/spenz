@@ -1,4 +1,3 @@
-import { Budget } from "@/types/budget"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { calculatePercentage, formatCurrency } from "@/lib/utils"
@@ -11,11 +10,13 @@ import {
 import { Button } from "@/components/ui/button"
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react"
 
-interface BudgetCardProps {
-  budget: Budget
+interface Budget {
+  amount: number;
+  spent: number;
+  categoryId?: string;
 }
 
-export default function BudgetCard({ budget }: BudgetCardProps) {
+export default function BudgetCard({ budget }: { budget: Budget }) {
   const percentage = calculatePercentage(budget.spent, budget.amount)
   const remaining = budget.amount - budget.spent
   
@@ -69,11 +70,11 @@ export default function BudgetCard({ budget }: BudgetCardProps) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="pt-1">
+      {/* <CardFooter className="pt-1">
         <div className="text-xs text-muted-foreground">
           {budget.categoryId ? 'Category budget' : 'All categories'} • {budget.period}
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   )
 }
