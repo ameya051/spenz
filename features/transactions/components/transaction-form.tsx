@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { AmountInput } from "@/components/amount-input";
 import { DatePicker } from "@/components/date-picker";
 import { Select } from "@/components/select";

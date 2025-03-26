@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React from 'react'
 import BudgetList from '@/components/budgets/budget-list'
 import CreateBudgetButton from '@/components/budgets/create-budget-button'
 import DashboardHeader from '@/components/dashboard/dashboard-header'

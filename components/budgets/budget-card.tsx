@@ -30,7 +30,6 @@ export default function BudgetCard({ budget }: BudgetCardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-        <div className="font-medium">{budget.name}</div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="h-8 w-8">

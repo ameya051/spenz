@@ -63,7 +63,8 @@ export const budgets = pgTable("budgets", {
     amount: integer("amount").notNull(), // Budget amount in cents
     accountId: text("account_id").references(() => accounts.id, {
         onDelete: "cascade",
-    }).notNull(),
+    }),
+    userId: text("user_id").notNull(),
     lastAlertSent: timestamp("last_alert_sent", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
@@ -71,4 +72,5 @@ export const budgets = pgTable("budgets", {
 
 export const insertBudgetSchema = createInsertSchema(budgets, {
     amount: z.coerce.number().positive("Amount must be positive"),
+    accountId: z.coerce.string().nonempty("Account is required"),
 });

@@ -24,4 +24,3 @@ export const DELETE = handle(app);
 
 export type AppType = typeof app;
 
-export default app;
