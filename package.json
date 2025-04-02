@@ -42,6 +42,7 @@
     "form": "^0.2.5",
     "framer-motion": "^12.4.2",
     "hono": "^4.7.0",
+    "inngest": "^3.34.1",
     "input": "^1.0.1",
     "lucide-react": "^0.379.0",
     "nanoid": "^5.1.5",

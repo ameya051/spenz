@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 // Configure your email transport
 const transporter = nodemailer.createTransport({
   // Replace with your email provider details
+  service: process.env.EMAIL_SERVICE,
   host: process.env.EMAIL_HOST,
   port: Number(process.env.EMAIL_PORT),
   secure: Boolean(process.env.EMAIL_SECURE),
@@ -20,7 +21,7 @@ export async function sendBudgetThresholdEmail(
 ) {
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
+      from: process.env.EMAIL_USER,
       to,
       subject: 'Budget Alert: 50% of your budget has been spent',
       html: `
@@ -28,12 +29,12 @@ export async function sendBudgetThresholdEmail(
         <p>You've spent ${percentage}% of your budget.</p>
         <p>
           <strong>Budget Amount:</strong> ${new Intl.NumberFormat('en-US', { 
-            style: 'currency', currency: 'USD' 
+            style: 'currency', currency: 'INR' 
           }).format(budgetAmount)}
         </p>
         <p>
           <strong>Amount Spent:</strong> ${new Intl.NumberFormat('en-US', { 
-            style: 'currency', currency: 'USD' 
+            style: 'currency', currency: 'INR' 
           }).format(spentAmount)}
         </p>
         

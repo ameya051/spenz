@@ -33,7 +33,7 @@ const app = new Hono()
           where: eq(budgets.userId, auth.userId),
           orderBy: [desc(budgets.createdAt)],
         });
-        
+
         const accountIds = result.map((budget) => budget.accountId).filter((id): id is string => id !== null);
         const expenses = await db.query.transactions.findMany({
           where: and(
@@ -42,16 +42,16 @@ const app = new Hono()
           ),
           orderBy: [desc(transactions.date)],
         });
-        
+
         // Combine budgets with their expenses and calculate total spent
         const budgetsWithExpenses = result.map(budget => {
-          const budgetExpenses = expenses.filter(expense => 
+          const budgetExpenses = expenses.filter(expense =>
             expense.accountId === budget.accountId
           );
-          
+
           // Calculate total spent (sum of all negative amounts)
-          const spent = budgetExpenses.reduce((total, expense) => 
-            total + Math.abs(expense.amount)/1000, 0
+          const spent = budgetExpenses.reduce((total, expense) =>
+            total + Math.abs(expense.amount) / 1000, 0
           );
 
           return {
@@ -61,7 +61,7 @@ const app = new Hono()
             expenses: budgetExpenses
           };
         });
-        
+
         return ctx.json({ data: budgetsWithExpenses });
       } catch (error) {
         console.error("Error fetching budgets:", error);
@@ -179,7 +179,7 @@ const app = new Hono()
   // })
 
   // Create a new budget
-  .post("/", clerkMiddleware(), zValidator("json", createBudgetSchema), async (ctx) => {    
+  .post("/", clerkMiddleware(), zValidator("json", createBudgetSchema), async (ctx) => {
     const auth = getAuth(ctx);
     if (!auth?.userId) {
       return ctx.json({ error: "Unauthorized" }, 401);
