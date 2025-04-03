@@ -138,29 +138,6 @@ const app = new Hono()
         })
         .returning();
 
-      const budget = await db
-        .select({ amount: budgets.amount })
-        .from(budgets)
-        .where(eq(budgets.accountId, values.accountId));
-
-      if (budget) {
-        const today = new Date();
-        const lastMonth = subDays(today, 30);
-        const last30Transactions = await db.select({ amount: transactions.amount })
-          .from(transactions)
-          .where(
-            and(
-              eq(transactions.accountId, values.accountId),
-              eq(accounts.userId, auth.userId),
-              gte(transactions.date, lastMonth),
-              lte(transactions.date, today)
-            )
-          )
-        const transactionSum= last30Transactions.reduce((sum, transaction) => sum + transaction.amount, 0);
-        const percentage = (transactionSum / budget[0].amount) * 100;
-
-      }
-
       return ctx.json({ data });
     }
   )

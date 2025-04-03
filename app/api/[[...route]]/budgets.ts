@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/drizzle";
 import { accounts, budgets, insertBudgetSchema, transactions } from "@/db/schema";
-import { eq, and, desc, inArray, lt } from "drizzle-orm";
+import { eq, and, desc, inArray, lt, gte } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 
@@ -35,10 +35,13 @@ const app = new Hono()
         });
 
         const accountIds = result.map((budget) => budget.accountId).filter((id): id is string => id !== null);
+        const startDate = new Date();
+        startDate.setDate(1);
         const expenses = await db.query.transactions.findMany({
           where: and(
             inArray(transactions.accountId, accountIds),
-            lt(transactions.amount, 0) // Only get negative amounts (expenses)
+            lt(transactions.amount, 0), // Only get negative amounts (expenses)
+            gte(transactions.date, startDate),
           ),
           orderBy: [desc(transactions.date)],
         });

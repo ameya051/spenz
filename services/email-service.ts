@@ -1,15 +1,28 @@
+// @ts-nocheck
 import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
 
-// Configure your email transport
+// Create OAuth2 client
+const oauth2Client = new google.auth.OAuth2(
+  process.env.GMAIL_CLIENT_ID,
+  process.env.GMAIL_CLIENT_SECRET,
+  'https://developers.google.com/oauthplayground'
+);
+
+oauth2Client.setCredentials({
+  refresh_token: process.env.GMAIL_REFRESH_TOKEN
+});
+
+// Configure email transport with OAuth2
 const transporter = nodemailer.createTransport({
-  // Replace with your email provider details
-  service: process.env.EMAIL_SERVICE,
-  host: process.env.EMAIL_HOST,
-  port: Number(process.env.EMAIL_PORT),
-  secure: Boolean(process.env.EMAIL_SECURE),
+  service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
+    type: 'OAuth2',
+    user: process.env.GMAIL_USER,
+    clientId: process.env.GMAIL_CLIENT_ID,
+    clientSecret: process.env.GMAIL_CLIENT_SECRET,
+    refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+    accessToken: oauth2Client.getAccessToken(),
   },
 });
 
@@ -21,9 +34,9 @@ export async function sendBudgetThresholdEmail(
 ) {
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: process.env.GMAIL_USER,
       to,
-      subject: 'Budget Alert: 50% of your budget has been spent',
+      subject: `Budget Alert: ${percentage}% of your budget has been spent`,
       html: `
         <h1>Budget Alert</h1>
         <p>You've spent ${percentage}% of your budget.</p>
