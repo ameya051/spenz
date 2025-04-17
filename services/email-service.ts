@@ -33,6 +33,8 @@ export async function sendBudgetThresholdEmail(
   percentage: number
 ) {
   try {
+    console.log("hi");
+    
     await transporter.sendMail({
       from: process.env.GMAIL_USER,
       to,
@@ -41,14 +43,14 @@ export async function sendBudgetThresholdEmail(
         <h1>Budget Alert</h1>
         <p>You've spent ${percentage}% of your budget.</p>
         <p>
-          <strong>Budget Amount:</strong> ${new Intl.NumberFormat('en-US', { 
-            style: 'currency', currency: 'INR' 
-          }).format(budgetAmount)}
+          <strong>Budget Amount:</strong> ${new Intl.NumberFormat('en-US', {
+        style: 'currency', currency: 'INR'
+      }).format(budgetAmount)}
         </p>
         <p>
-          <strong>Amount Spent:</strong> ${new Intl.NumberFormat('en-US', { 
-            style: 'currency', currency: 'INR' 
-          }).format(spentAmount)}
+          <strong>Amount Spent:</strong> ${new Intl.NumberFormat('en-US', {
+        style: 'currency', currency: 'INR'
+      }).format(spentAmount)}
         </p>
         
         <p>Login to your account to review your spending.</p>
