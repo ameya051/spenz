@@ -11,7 +11,7 @@ export default function BudgetsPage() {
     <DashboardShell>
       <DashboardHeader
         heading="Budgets"
-        text="Create and manage your monthly budgets by category."
+        text="Create and manage your monthly budgets."
       >
         <CreateBudgetButton />
       </DashboardHeader>

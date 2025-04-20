@@ -3,6 +3,7 @@
 import BudgetCard from "./budget-card"
 import { EmptyState } from "../shared/empty-state"
 import { useGetBudgets } from "@/features/budgets/api/use-get-budgets"
+import EditBudgetDialog from "./edit-budget-dialog"
 
 export default function BudgetList() {
   const budgetsQuery = useGetBudgets();
@@ -22,11 +23,14 @@ export default function BudgetList() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {budgetsQuery?.data?.map((budget) => (
-        <BudgetCard key={budget.id} budget={budget} />
-      ))}
-    </div>
+    <>
+      <EditBudgetDialog />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {budgetsQuery?.data?.map((budget) => (
+          <BudgetCard key={budget.id} budget={budget} />
+        ))}
+      </div>
+    </>
   )
 }
 
