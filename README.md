@@ -1,6 +1,6 @@
 # Finance Platform
 
-Welcome to my Finance Platform project! This platform is designed to help you manage your personal or business finances effectively. With this Finance SaaS Platform, you can track your income and expenses, categorize transactions, assign them to specific accounts, and import transactions using a CSV file. Additionally, it integrates with Plaid to connect to your bank account and uses Lemon Squeezy for monetization.
+Welcome to my Finance Platform project! This platform is designed to help you manage your personal or business finances effectively. With this Finance SaaS Platform, you can track your income and expenses, categorize transactions, assign them to specific accounts, set budgets, receive spending insights, and import transactions using a CSV file. Additionally, it integrates with Plaid to connect to your bank account and uses Lemon Squeezy for monetization.
 
 ## Features
 
@@ -8,6 +8,8 @@ Welcome to my Finance Platform project! This platform is designed to help you ma
 - **Categorize Transactions:** Organize your transactions by categories for better clarity.
 - **Account Management:** Assign transactions to specific accounts.
 - **CSV Import:** Import transactions from CSV files for quick data entry.
+- **Budget Management:** Set monthly budgets and receive notifications when thresholds are reached.
+- **AI-Powered Insights:** Get AI-driven insights into your monthly spending patterns.
 
 ## Tech Stack
 
@@ -32,7 +34,7 @@ Welcome to my Finance Platform project! This platform is designed to help you ma
 
 3. **Set up environment variables:**
 
-   Create a `.env` file in the root directory and add the following:
+   Create a `.env.local` file in the root directory and add the following:
 
    ```env
    DATABASE_URL=
@@ -44,6 +46,11 @@ Welcome to my Finance Platform project! This platform is designed to help you ma
    NEXT_PUBLIC_APP_URL=
    CLERK_SECRET_KEY=
    CLERK_PUBLISHABLE_KEY=
+   GEMINI_API_KEY=
+   GMAIL_CLIENT_ID=
+   GMAIL_CLIENT_SECRET=
+   GMAIL_REFRESH_TOKEN=
+   GMAIL_USER=
    ```
 
 4. **Run the application:**
@@ -69,4 +76,12 @@ Welcome to my Finance Platform project! This platform is designed to help you ma
 4. **CSV Import:**
 
    - Import transactions using a CSV file by navigating to the import section and uploading your file.
+
+5. **Manage Budgets:**
+
+   - Navigate to the budgets section to create monthly budgets for different categories and get notified about your spending.
+
+6. **View Insights:**
+
+   - Check the dashboard or insights section for AI-powered analysis of your spending habits.
 
