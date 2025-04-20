@@ -3,6 +3,7 @@ import React from "react";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 function Hero() {
   return (
@@ -37,7 +38,9 @@ function Hero() {
             transition={{ duration: 0.3, delay: 0.9 }}
             className="relative justify-center"
           >
-            <InteractiveHoverButton text="Get Started" />
+            <Link href={"sign-in"}>
+              <InteractiveHoverButton text="Get Started" />
+            </Link>
           </motion.div>
         </div>
         <motion.div
