@@ -1,43 +1,59 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Loader2 } from "lucide-react";
 import BudgetDialog from "./budget-dialog";
-import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
-import { useCreateAccount } from "@/features/accounts/api/use-create-account";
-import { useCreateBudget } from "@/features/budgets/api/use-create-budget";
 
 interface BudgetFormData {
   accountId: string;
   amount: number;
 }
 
-export default function CreateBudgetButton() {
+interface Props {
+  hasBudget: boolean;
+  accountOptions: { label: string; value: string }[];
+  onCreateAccount: (name: string) => void;
+  isAccountLoading: boolean;
+  isAccountMutating: boolean;
+  onCreateBudget: (data: BudgetFormData) => void;
+  isBudgetMutating: boolean;
+}
+
+export default function CreateBudgetButton({
+  hasBudget,
+  accountOptions,
+  onCreateAccount,
+  isAccountLoading,
+  isAccountMutating,
+  onCreateBudget,
+  isBudgetMutating
+}: Props) {
   const [open, setOpen] = useState(false);
 
-  const budgetmutation = useCreateBudget()
-
-
-  const accountQuery = useGetAccounts();
-  const accountOptions = (accountQuery.data ?? []).map((account) => ({
-    label: account.name,
-    value: account.id,
-  }));
-
-  const accountMutation = useCreateAccount();
-  const onCreateAccount = (name: string) => accountMutation.mutate({ name });
-
   function handleCreateBudget(data: BudgetFormData): void {
-    console.log(data);
-    budgetmutation.mutate(data);
+    onCreateBudget(data);
     setOpen(false);
   }
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>
-        <PlusCircle className="mr-2 h-4 w-4" />
-        New Budget
+      <Button 
+        onClick={() => setOpen(true)} 
+        disabled={hasBudget || isAccountLoading || isBudgetMutating}
+        title={
+          isAccountLoading 
+            ? "Loading..." 
+            : hasBudget 
+            ? "You already have a budget" 
+            : "Create a new budget"
+        }
+      >
+        {(isAccountLoading || isBudgetMutating) ? (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <PlusCircle className="mr-2 h-4 w-4" />
+        )}
+        {isAccountLoading ? "Loading..." : "New Budget"}
       </Button>
 
       <BudgetDialog
@@ -45,8 +61,10 @@ export default function CreateBudgetButton() {
         onOpenChange={setOpen}
         accountOptions={accountOptions}
         onCreateAccount={onCreateAccount}
-        disabled={accountMutation.isPending}
+        disabled={isAccountMutating}
+        isLoading={isAccountLoading}
         onSubmit={handleCreateBudget}
+        isSubmitting={isBudgetMutating}
       />
     </>
   );

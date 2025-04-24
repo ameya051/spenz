@@ -38,14 +38,14 @@ function Navigation() {
               isSignedIn ? (
                 <Button
                   variant="default"
-                  className="bg-cyan-600 hover:bg-cyan-700 text-white"
+                  className="bg-primary text-white"
                 >
                   <Link href="/dashboard">Start Saving</Link>
                 </Button>
               ) : (
                 <Button
                   variant="ghost"
-                  className="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 dark:hover:text-cyan-300"
+                  className="text-primary"
                 >
                   <Link href="/sign-in">Log In →</Link>
                 </Button>

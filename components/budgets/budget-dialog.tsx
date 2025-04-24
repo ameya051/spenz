@@ -37,6 +37,8 @@ interface BudgetDialogProps {
   accountOptions: { label: string; value: string }[];
   onCreateAccount: (name: string) => void;
   disabled?: boolean;
+  isLoading?: boolean;
+  isSubmitting?: boolean;
 }
 
 export default function BudgetDialog({
@@ -45,7 +47,9 @@ export default function BudgetDialog({
   onSubmit,
   accountOptions,
   onCreateAccount,
-  disabled
+  disabled,
+  isLoading,
+  isSubmitting
 }: BudgetDialogProps) {
   const form = useForm<BudgetFormValues>({
     resolver: zodResolver(budgetFormSchema),
