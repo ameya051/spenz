@@ -34,7 +34,6 @@ function Navigation() {
             ))}
           </div>
           <div className="flex items-center space-x-4">
-            <ThemeToggle />
             {isLoaded && (
               isSignedIn ? (
                 <Button
