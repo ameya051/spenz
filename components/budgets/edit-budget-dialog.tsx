@@ -22,8 +22,10 @@ import { Button } from "@/components/ui/button";
 import { Select } from "../select";
 import { useEditBudget } from "@/features/budgets/hooks/use-edit-budget";
 import { useUpdateBudget } from "@/features/budgets/api/use-update-budget";
+import { useGetBudget } from "@/features/budgets/api/use-get-budget";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useCreateAccount } from "@/features/accounts/api/use-create-account";
+import { useEffect } from "react";
 
 const editBudgetFormSchema = z.object({
   amount: z.coerce.number().positive("Amount must be positive"),
@@ -34,6 +36,7 @@ type EditBudgetFormValues = z.infer<typeof editBudgetFormSchema>;
 
 export default function EditBudgetDialog() {
   const { isOpen, onClose, budgetId } = useEditBudget();
+  const budgetQuery = useGetBudget(budgetId);
   const updateMutation = useUpdateBudget(budgetId!);
 
   const accountQuery = useGetAccounts();
@@ -48,6 +51,15 @@ export default function EditBudgetDialog() {
   const form = useForm<EditBudgetFormValues>({
     resolver: zodResolver(editBudgetFormSchema),
   });
+
+  useEffect(() => {
+    if (budgetQuery.data) {
+      form.reset({
+        amount: budgetQuery.data.amount,
+        accountId: budgetQuery.data.accountId || "",
+      });
+    }
+  }, [budgetQuery.data, form]);
 
   const handleSubmit = (values: EditBudgetFormValues) => {
     updateMutation.mutate(values, {
@@ -76,7 +88,7 @@ export default function EditBudgetDialog() {
             <FormField
               name="accountId"
               control={form.control}
-              disabled={accountMutation.isPending}
+              disabled={accountMutation.isPending || budgetQuery.isLoading}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Account</FormLabel>
@@ -87,7 +99,7 @@ export default function EditBudgetDialog() {
                       onCreate={onCreateAccount}
                       value={field.value}
                       onChange={field.onChange}
-                      disabled={accountMutation.isPending}
+                      disabled={accountMutation.isPending || budgetQuery.isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -110,6 +122,7 @@ export default function EditBudgetDialog() {
                         type="number"
                         className="pl-7"
                         placeholder="0.00"
+                        disabled={budgetQuery.isLoading}
                         {...field}
                       />
                     </div>
@@ -129,7 +142,7 @@ export default function EditBudgetDialog() {
               </Button>
               <Button 
                 type="submit"
-                disabled={updateMutation.isPending}
+                disabled={updateMutation.isPending || budgetQuery.isLoading}
               >
                 Save Changes
               </Button>

@@ -91,7 +91,6 @@ const generateTransactionPerDay = (day: Date) => {
       categoryId: category.id,
       date: day,
       amount: formattedAmount,
-      payee: "Merchant",
       notes: "Random transaction",
     });
   }

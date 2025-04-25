@@ -1,3 +1,4 @@
+//
 import { type IconType } from "react-icons";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -79,13 +80,16 @@ export const DataCard = ({
 
       <CardContent>
         <h1 className="mb-2 line-clamp-1 break-all text-2xl font-bold">
+          {value === 0 ? (
+            <span className="text-muted-foreground">No data</span>
+          ) : (
+            <span>&#8377;</span>
+          )}
           <CountUp
             preserveValue
             start={0}
             end={value}
             decimals={2}
-            decimalPlaces={2}
-            formattingFn={formatCurrency}
           />
         </h1>
 

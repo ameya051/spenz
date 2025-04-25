@@ -1,8 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { calculatePercentage, formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -20,17 +16,17 @@ interface Budget {
 
 export const useDeleteBudget = (budgetId: string) => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async () => {
       const response = await fetch(`/api/budgets/${budgetId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
-      if (!response.ok) throw new Error('Failed to delete budget');
+      if (!response.ok) throw new Error("Failed to delete budget");
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['budgets'] });
+      queryClient.invalidateQueries({ queryKey: ["budgets"] });
     },
   });
 };
