@@ -2,7 +2,7 @@
 
 import React from 'react'
 import BudgetList from '@/components/budgets/budget-list'
-import CreateBudgetButton from '@/components/budgets/create-budget-button'
+import CreateBudgetButton from '@/features/budgets/components/create-budget-button'
 import DashboardHeader from '@/components/dashboard/dashboard-header'
 import DashboardShell from '@/components/dashboard/dashboard-shell'
 import { useGetBudgets } from '@/features/budgets/api/use-get-budgets'

@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select } from "../select";
+import { Select } from "../../../components/select";
 import { useEditBudget } from "@/features/budgets/hooks/use-edit-budget";
 import { useUpdateBudget } from "@/features/budgets/api/use-update-budget";
 import { useGetBudget } from "@/features/budgets/api/use-get-budget";

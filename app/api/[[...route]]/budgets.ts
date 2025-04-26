@@ -100,87 +100,6 @@ const app = new Hono()
     }
   })
 
-  // Get budget progress with spending data
-  // .get("/:id/progress", clerkMiddleware(), async (ctx) => {
-  //   const auth = getAuth(ctx);
-  //   if (!auth?.userId) {
-  //     return ctx.json({ error: "Unauthorized." }, 401);
-  //   }
-
-  //   const id = ctx.req.param("id");
-
-  //   try {
-  //     // First get the budget
-  //     const budget = await db.query.budgets.findFirst({
-  //       where: and(
-  //         eq(budgets.id, id),
-  //         eq(budgets.userId, auth.userId)
-  //       ),
-  //     });
-
-  //     if (!budget) {
-  //       return ctx.json({ error: "Budget not found." }, 404);
-  //     }
-
-  //     // Define date range for the current period
-  //     const today = new Date();
-  //     let startDate, endDate;
-
-  //     switch (budget.period) {
-  //       case 'weekly':
-  //         startDate = new Date(today);
-  //         startDate.setDate(today.getDate() - today.getDay()); // Beginning of week (Sunday)
-  //         endDate = new Date(today);
-  //         endDate.setDate(startDate.getDate() + 6); // End of week (Saturday)
-  //         break;
-  //       case 'monthly':
-  //         startDate = new Date(today.getFullYear(), today.getMonth(), 1); // Beginning of month
-  //         endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); // End of month
-  //         break;
-  //       case 'yearly':
-  //         startDate = new Date(today.getFullYear(), 0, 1); // Beginning of year
-  //         endDate = new Date(today.getFullYear(), 11, 31); // End of year
-  //         break;
-  //       default:
-  //         startDate = budget.startDate;
-  //         endDate = budget.endDate || today;
-  //     }
-
-  //     // Calculate spent amount in the current period
-  //     let spentQuery;
-  //     if (budget.categoryId) {
-  //       // Budget for specific category
-  //       spentQuery = await db
-  //         .select({ total: sql<number>`sum(${transactions.amount})` })
-  //         .from(transactions)
-  //         .where(and(
-  //           eq(transactions.categoryId, budget.categoryId),
-  //           gte(transactions.date, startDate),
-  //           lte(transactions.date, endDate)
-  //         ));
-  //     } else {
-  //       // Budget for all categories
-  //       spentQuery = await db
-  //         .select({ total: sql<number>`sum(${transactions.amount})` })
-  //         .from(transactions)
-  //         .where(and(
-  //           gte(transactions.date, startDate),
-  //           lte(transactions.date, endDate)
-  //         ));
-  //     }
-
-  //     const spent = spentQuery[0].total || 0;
-
-  //     // Calculate remaining amount
-  //     const remaining = budget.amount - spent;
-
-  //     return ctx.json({ data: { budget, spent, remaining } });
-  //   } catch (error) {
-  //     console.error("Error fetching budget progress:", error);
-  //     return ctx.json({ error: "Failed to fetch budget progress." }, 500);
-  //   }
-  // })
-
   // Create a new budget
   .post("/", clerkMiddleware(), zValidator("json", createBudgetSchema), async (ctx) => {
     const auth = getAuth(ctx);
@@ -215,6 +134,9 @@ const app = new Hono()
 
     const id = ctx.req.param("id");
     const data = ctx.req.valid("json");
+
+    console.log("Updating budget with ID:", id, "Data:", data);
+    
 
     try {
       const [updatedBudget] = await db.update(budgets)

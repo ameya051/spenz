@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Loader2 } from "lucide-react";
-import BudgetDialog from "./budget-dialog";
+import BudgetDialog from "./new-budget-dialog";
 
 interface BudgetFormData {
   accountId: string;

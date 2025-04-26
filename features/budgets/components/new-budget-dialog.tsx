@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select } from "../select";
+import { Select } from "../../../components/select";
 
 const budgetFormSchema = z.object({
   amount: z.coerce.number().positive("Amount must be positive"),

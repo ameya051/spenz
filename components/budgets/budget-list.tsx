@@ -3,7 +3,7 @@
 import { UseQueryResult } from "@tanstack/react-query"
 import BudgetCard from "./budget-card"
 import { EmptyState } from "../shared/empty-state"
-import EditBudgetDialog from "./edit-budget-dialog"
+import EditBudgetDialog from "../../features/budgets/components/edit-budget-dialog"
 
 interface Expense {
   date: string;

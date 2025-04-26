@@ -14,9 +14,6 @@ import { NewTransactionSheet } from "@/features/transactions/components/new-tran
 
 import { EditTransactionSheet } from "@/features/transactions/components/edit-transaction-sheet";
 
-import NewBudgetSheet from "@/features/budgets/components/new-budget-sheet";
-import EditBudgetSheet from "@/features/budgets/components/edit-budget-sheet";
-
 export const SheetProvider = () => {
     const isMounted = useMountedState();
 
@@ -26,9 +23,6 @@ export const SheetProvider = () => {
         <>
             <NewAccountSheet />
             <EditAccountSheet />
-
-            {/* <NewBudgetSheet />
-            <EditBudgetSheet /> */}
 
             <NewCategorySheet />
             <EditCategorySheet />
