@@ -122,13 +122,13 @@ const TransactionsPage = () => {
               <Plus className="mr-2 size-4" /> Add new
             </Button>
 
-            <UploadButton onUpload={onUpload} />
+            {/* <UploadButton onUpload={onUpload} /> */}
           </div>
         </CardHeader>
 
         <CardContent>
           <DataTable
-            filterKey="payee"
+            filterKey="category"
             columns={columns}
             data={transactions}
             onDelete={(row) => {

@@ -46,7 +46,7 @@ export const checkBudgetAlerts = inngest.createFunction(
         const spent = Number(result[0]?.totalAmount || 0) * -1 / 1000;
         const percentage = (spent / budget.amount) * 100;
 
-        if (percentage >= 20 && (!budget.lastAlertSent ||
+        if (percentage >= 80 && (!budget.lastAlertSent ||
           isNewMonth(new Date(budget.lastAlertSent), new Date()))) {
           const user = await clerkClient.users.getUser(budget.userId);
 

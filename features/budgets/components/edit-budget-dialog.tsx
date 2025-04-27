@@ -115,9 +115,9 @@ export default function EditBudgetDialog() {
                   <FormLabel>Amount</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                        &#8377;
-                      </span>
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <span className="text-muted-foreground">&#8377;</span>
+                      </div>
                       <Input
                         type="number"
                         className="pl-7"
