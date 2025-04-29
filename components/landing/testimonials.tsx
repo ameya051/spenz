@@ -91,7 +91,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="max-w-4xl mx-auto pt-40 border-t border-gray-200 dark:border-gray-800 px-4"
+      className="max-w-4xl mx-auto pt-28 lg:pt-44 px-4"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}

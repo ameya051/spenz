@@ -70,8 +70,8 @@ export default function Features() {
   });
 
   return (
-    <div id='features' className="max-w-4xl mx-auto px-4 pt-44">
-      <div className="container mx-auto">
+    <div id='features' className="max-w-4xl mx-auto px-4 pt-28 lg:pt-44">
+      <div className="mx-auto">
         <div className="flex flex-col gap-10">
           <div
             className="flex gap-4 flex-col items-center"
