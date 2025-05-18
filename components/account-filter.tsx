@@ -19,6 +19,7 @@ export const AccountFilter = () => {
   const searchParams = useSearchParams();
 
   const { isLoading: isLoadingSummary } = useGetSummary();
+  const isRelevantPage = pathname === '/dashboard' || pathname === '/transactions';
 
   const accountId = searchParams.get("accountId") || "all";
   const from = searchParams.get("from") || "";
@@ -49,7 +50,7 @@ export const AccountFilter = () => {
     <Select
       value={accountId}
       onValueChange={onChange}
-      disabled={isLoadingAccounts || isLoadingSummary}
+      disabled={isLoadingAccounts || isLoadingSummary || !isRelevantPage}
     >
       <SelectTrigger className="h-9 w-full rounded-md border-none bg-white/10 px-3 font-normal text-white outline-none transition hover:bg-white/30 hover:text-white focus:bg-white/30 focus:ring-transparent focus:ring-offset-0 lg:w-auto">
         <SelectValue placeholder="Select account" />

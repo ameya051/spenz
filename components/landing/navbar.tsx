@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { ThemeToggle } from "../theme-toggle";
 import Link from "next/link";
 import Logo from "../logo";
 import { useAuth } from "@clerk/nextjs";
+import { checkUser } from "@/lib/checkUser";
 
 function Navigation() {
   const { isSignedIn, isLoaded } = useAuth();

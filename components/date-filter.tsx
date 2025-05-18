@@ -22,6 +22,7 @@ export const DateFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const isRelevantPage = pathname === '/dashboard' || pathname === '/transactions';
   const accountId = searchParams.get("accountId");
   const from = searchParams.get("from") || "";
   const to = searchParams.get("to") || "";
@@ -63,20 +64,19 @@ export const DateFilter = () => {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          disabled={false}
+          disabled={!isRelevantPage}
           size="sm"
           variant="outline"
           className="h-9 w-full rounded-md border-none bg-white/10 px-3 font-normal text-white outline-none transition hover:bg-white/30 hover:text-white focus:bg-white/30 focus:ring-transparent focus:ring-offset-0 lg:w-auto"
         >
           <span>{formatDateRange(paramState)}</span>
-
           <ChevronDown className="ml-2 size-4 opacity-50" />
         </Button>
       </PopoverTrigger>
 
       <PopoverContent className="w-full p-0 lg:w-auto" align="start">
         <Calendar
-          disabled={false}
+          disabled={!isRelevantPage}
           initialFocus
           mode="range"
           defaultMonth={date?.from}
@@ -89,7 +89,7 @@ export const DateFilter = () => {
           <PopoverClose asChild>
             <Button
               onClick={onReset}
-              disabled={!date?.from || !date?.to}
+              disabled={!isRelevantPage || !date?.from || !date?.to}
               className="w-full"
               variant="outline"
             >
@@ -100,7 +100,7 @@ export const DateFilter = () => {
           <PopoverClose asChild>
             <Button
               onClick={() => pushToUrl(date)}
-              disabled={!date?.from || !date?.to}
+              disabled={!isRelevantPage || !date?.from || !date?.to}
               className="w-full"
             >
               Apply

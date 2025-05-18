@@ -9,9 +9,10 @@ import { Filters } from "./filters";
 import { HeaderLogo } from "./header-logo";
 import { Navigation } from "./navigation";
 import { WelcomeMsg } from "./welcome-msg";
+import { checkUser } from "@/lib/checkUser";
 
-export const Header = () => {
-  
+export const Header = async() => {
+  await checkUser();
   return (
     <header className="bg-gradient-to-b from-blue-700 to-blue-500 px-4 py-8 lg:px-14 lg:pb-32">
       <div className="mx-auto max-w-screen-2xl">
